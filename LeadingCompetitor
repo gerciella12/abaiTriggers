@@ -1,0 +1,26 @@
+
+
+//my test class must:
+//1. Create or update an opportunity
+//2. Populate all 3 competitor price fields
+//3. Populate all 3 competitor fields
+@IsTest
+public with sharing class LeadingCompetitorTest {
+    @IsTest static void CreateAnOpp() {
+    Opportunity opp = new Opportunity();
+        opp.Name = 'Big Opp';
+        opp.CloseDate = Date.today();
+        opp.StageName = 'Prospecting';
+
+        opp.Competitor_1_Price__c = 12000;
+        opp.Competitor_2_Price__c = 34500;
+        opp.Competitor_3_Price__c = 5000;
+
+        opp.Competitor_1__c = 'Amazon';
+        opp.Competitor_2__c = 'Google';
+        opp.Competitor_3__c = 'Oracle';
+
+        insert opp;
+        System.debug(opp.Name);
+    }
+}
