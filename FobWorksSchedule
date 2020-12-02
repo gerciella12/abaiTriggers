@@ -1,0 +1,12 @@
+ublic class FobWorksSchedule implements Schedulable{
+  public void execute (SchedulableContext sc){
+        FobWorks m = new FobWorks();
+        }
+}
+       
+ 
+/*
+<--- FobWorksSchedule f =  new FobWorksSchedule();
+String cronExpression = '0 50 22 * * ? *';
+System.schedule('FobWorksSchedule3', cronExpression, f);
+*/
