@@ -1,0 +1,31 @@
+public class FobWorks{
+    public static HttpResponse makePostCallout(){
+    List <Account> Accounts = [Select Id , Name, Rent_end_date__c from Account ] ;
+       JSONGenerator gen = JSON.createGenerator(true);
+       for(Account acc : Accounts){
+          if(acc.Rent_end_date__c == date.TODAY()){
+                gen.writeStartObject();      
+                gen.writeStringField('Account Name', acc.Name);
+                gen.writeDateField('Rent End Date', acc.Rent_end_date__c);
+                gen.writeEndObject();
+          }
+       }
+           String jsonS = gen.getAsString();
+         System.debug('Please remove the fob for this tenant account' +jsonS);
+         String endpoint = 'https://fobworks.herokuapp.com'; 
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint(endpoint);
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        request.setBody(jsonS);
+         HttpResponse response = http.send(request);
+        if (response.getStatusCode() != 201) {
+            System.debug('The status code returned was not expected: ' +
+                response.getStatusCode() + ' ' + response.getStatus());
+        } else {
+            System.debug(response.getBody());
+        }
+        return response;
+     }
+}
